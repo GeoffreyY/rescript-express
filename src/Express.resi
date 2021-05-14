@@ -96,7 +96,7 @@ let is: (req, string) => option<string>
 
 // res properties
 @get external headersSent: res => bool = "headersSent"
-@get external locals: res => {..} = "locals"
+@get external locals: res => Js.Dict.t<'a> = "locals"
 
 // res methods
 @send external append: (res, string, string) => res = "append"
