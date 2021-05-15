@@ -12,6 +12,10 @@ type middleware = (req, res, unit => res) => res
 type middlewareWithError = (Js.Exn.t, req, res, unit => res) => res
 type handler = (req, res) => res
 
+type middlewareAsync = (req, res, unit => Js.Promise.t<res>) => Js.Promise.t<res>
+type middlewareWithErrorAsync = (Js.Exn.t, req, res, unit => Js.Promise.t<res>) => Js.Promise.t<res>
+type handlerAsync = (req, res) => Js.Promise.t<res>
+
 external asMiddleware: express => middleware = "%identity"
 
 // The *Middleware suffixes aren't really nice but avoids forcing people to disable warning 44
