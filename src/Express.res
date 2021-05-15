@@ -141,3 +141,7 @@ let is = (req, value) => req->is(value)->parseValue
 @send external status: (res, int) => res = "status"
 @send external \"type": (res, string) => string = "type"
 @send external vary: (res, string) => res = "vary"
+
+@module("express") external router: unit => express = "Router"
+@send external withRoute: (express, string) => express = "route"
+@send external useRouter: (express, string, express) => unit = "use"
