@@ -8,9 +8,9 @@ type express
 type req
 type res
 
-type middleware = (req, res, unit => unit) => unit
-type middlewareWithError = (Js.Exn.t, req, res, unit => unit) => unit
-type handler = (req, res) => unit
+type middleware = (req, res, unit => res) => res
+type middlewareWithError = (Js.Exn.t, req, res, unit => res) => res
+type handler = (req, res) => res
 
 external asMiddleware: express => middleware = "%identity"
 
@@ -38,8 +38,8 @@ external staticMiddlewareWithOptions: (string, {..}) => middleware = "static"
 @send external get: (express, string, handler) => unit = "get"
 @send external post: (express, string, handler) => unit = "post"
 @send external delete: (express, string, handler) => unit = "delete"
-@deprecated("Express 5.0 deprecates app.del(), use app.delete() instead")
-@send external del: (express, string, handler) => unit = "del"
+@deprecated("Express 5.0 deprecates app.del(), use app.delete() instead") @send
+external del: (express, string, handler) => unit = "del"
 @send external patch: (express, string, handler) => unit = "patch"
 @send external put: (express, string, handler) => unit = "put"
 
