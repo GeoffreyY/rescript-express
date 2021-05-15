@@ -4,11 +4,11 @@ let app = expressCjs()
 
 app->use(jsonMiddleware())
 
-app->get("/", (_req, res) => {
+app->getSync("/", (_req, res) => {
   res->status(200)->json({"ok": true})
 })
 
-app->post("/ping", (req, res) => {
+app->postSync("/ping", (req, res) => {
   let body = req->body
   switch body["name"]->Js.Nullable.toOption {
   | Some(name) => res->status(200)->json({"message": `Hello ${name}`})
