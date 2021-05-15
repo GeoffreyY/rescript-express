@@ -70,6 +70,7 @@ type method = [#GET | #POST | #PUT | #DELETE | #PATCH]
 @get external baseUrl: req => string = "baseUrl"
 @get external body: req => 'a = "body"
 @get external cookies: req => 'a = "cookies"
+@get external file: req => 'a = "file"
 @get external fresh: req => bool = "fresh"
 @get external hostname: req => string = "hostname"
 @get external ip: req => string = "ip"
