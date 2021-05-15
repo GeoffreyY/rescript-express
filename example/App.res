@@ -16,7 +16,7 @@ app->postSync("/ping", (req, res) => {
   }
 })
 
-app->useWithError((err, _req, res, _next) => {
+app->useWithErrorSync((err, _req, res, _next) => {
   Js.Console.error(err)
   res->status(500)->endWithData("An error occured")
 })

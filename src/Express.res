@@ -8,13 +8,13 @@ type express
 type req
 type res
 
-type middleware = (req, res, unit => res) => res
-type middlewareWithError = (Js.Exn.t, req, res, unit => res) => res
-type handler = (req, res) => res
+type middlewareSync = (req, res, unit => res) => res
+type middlewareWithErrorSync = (Js.Exn.t, req, res, unit => res) => res
+type handlerSync = (req, res) => res
 
-type middlewareAsync = (req, res, unit => Js.Promise.t<res>) => Js.Promise.t<res>
-type middlewareWithErrorAsync = (Js.Exn.t, req, res, unit => Js.Promise.t<res>) => Js.Promise.t<res>
-type handlerAsync = (req, res) => Js.Promise.t<res>
+type middleware = (req, res, unit => Js.Promise.t<res>) => Js.Promise.t<res>
+type middlewareWithError = (Js.Exn.t, req, res, unit => Js.Promise.t<res>) => Js.Promise.t<res>
+type handler = (req, res) => Js.Promise.t<res>
 
 external asMiddleware: express => middleware = "%identity"
 
@@ -39,31 +39,37 @@ external staticMiddlewareWithOptions: (string, {..}) => middleware = "static"
 @send external useWithError: (express, middlewareWithError) => unit = "use"
 @send external useWithPathAndError: (express, string, middlewareWithError) => unit = "use"
 
-@send external get: (express, string, handlerAsync) => unit = "get"
-@send external post: (express, string, handlerAsync) => unit = "post"
-@send external delete: (express, string, handlerAsync) => unit = "delete"
+@send external useSync: (express, middlewareSync) => unit = "use"
+@send external useWithPathSync: (express, string, middlewareSync) => unit = "use"
+
+@send external useWithErrorSync: (express, middlewareWithErrorSync) => unit = "use"
+@send external useWithPathAndErrorSync: (express, string, middlewareWithErrorSync) => unit = "use"
+
+@send external get: (express, string, handler) => unit = "get"
+@send external post: (express, string, handler) => unit = "post"
+@send external delete: (express, string, handler) => unit = "delete"
 @deprecated("Express 5.0 deprecates app.del(), use app.delete() instead") @send
 external del: (express, string, handler) => unit = "del"
-@send external patch: (express, string, handlerAsync) => unit = "patch"
-@send external put: (express, string, handlerAsync) => unit = "put"
+@send external patch: (express, string, handler) => unit = "patch"
+@send external put: (express, string, handler) => unit = "put"
 
-@send external getMiddleware: (express, string, middlewareAsync) => unit = "get"
-@send external postMiddleware: (express, string, middlewareAsync) => unit = "post"
-@send external deleteMiddleware: (express, string, middlewareAsync) => unit = "delete"
-@send external patchMiddleware: (express, string, middlewareAsync) => unit = "patch"
-@send external putMiddleware: (express, string, middlewareAsync) => unit = "put"
+@send external getMiddleware: (express, string, middleware) => unit = "get"
+@send external postMiddleware: (express, string, middleware) => unit = "post"
+@send external deleteMiddleware: (express, string, middleware) => unit = "delete"
+@send external patchMiddleware: (express, string, middleware) => unit = "patch"
+@send external putMiddleware: (express, string, middleware) => unit = "put"
 
-@send external getSync: (express, string, handler) => unit = "get"
-@send external postSync: (express, string, handler) => unit = "post"
-@send external deleteSync: (express, string, handler) => unit = "delete"
-@send external patchSync: (express, string, handler) => unit = "patch"
-@send external putSync: (express, string, handler) => unit = "put"
+@send external getSync: (express, string, handlerSync) => unit = "get"
+@send external postSync: (express, string, handlerSync) => unit = "post"
+@send external deleteSync: (express, string, handlerSync) => unit = "delete"
+@send external patchSync: (express, string, handlerSync) => unit = "patch"
+@send external putSync: (express, string, handlerSync) => unit = "put"
 
-@send external getMiddlewareSync: (express, string, middleware) => unit = "get"
-@send external postMiddlewareSync: (express, string, middleware) => unit = "post"
-@send external deleteMiddlewareSync: (express, string, middleware) => unit = "delete"
-@send external patchMiddlewareSync: (express, string, middleware) => unit = "patch"
-@send external putMiddlewareSync: (express, string, middleware) => unit = "put"
+@send external getMiddlewareSync: (express, string, middlewareSync) => unit = "get"
+@send external postMiddlewareSync: (express, string, middlewareSync) => unit = "post"
+@send external deleteMiddlewareSync: (express, string, middlewareSync) => unit = "delete"
+@send external patchMiddlewareSync: (express, string, middlewareSync) => unit = "patch"
+@send external putMiddlewareSync: (express, string, middlewareSync) => unit = "put"
 
 @send external enable: (express, string) => unit = "enable"
 @send external enabled: (express, string) => bool = "enabled"
