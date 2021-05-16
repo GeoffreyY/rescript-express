@@ -16,5 +16,8 @@
     "module": "commonjs",
     "suffix": ".js",
     "in-source": true
-  }
+  },
+  "bs-dev-dependencies": [
+    "@ryyppy/rescript-promise"
+  ]
 }

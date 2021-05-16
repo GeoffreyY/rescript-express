@@ -8,6 +8,11 @@ type express
 type req
 type res
 
+// This'll make sure all branches inside of handlers / middlewares return (exactly?) one Express.res
+// I can't think of any reason you wouldn't want to return exactly one res
+// By default these are async (Promise.t<res>), suits my own use case better
+// Usually you're using these with db or something async anyway, probably
+// TODO: the `next` func in middleware can take `routeName: string` argument
 type middleware = (req, res, unit => Js.Promise.t<res>) => Js.Promise.t<res>
 type middlewareWithError = (Js.Exn.t, req, res, unit => Js.Promise.t<res>) => Js.Promise.t<res>
 type handler = (req, res) => Js.Promise.t<res>
@@ -49,6 +54,10 @@ external del: (express, string, handler) => unit = "del"
 @send external patchMiddleware: (express, string, middleware) => unit = "patch"
 @send external putMiddleware: (express, string, middleware) => unit = "put"
 
+// Here's a module in case you don't want async
+// Opening this module to shadow the async definitions with these sync versions
+// problem: once you `open Sync` you can't access async versions anymore
+// use app->Sync.get(..) on a case by case basis instead
 module Sync = {
   type middleware = (req, res, unit => res) => res
   type middlewareWithError = (Js.Exn.t, req, res, unit => res) => res
@@ -173,6 +182,8 @@ let is = (req, value) => req->is(value)->parseValue
 @send external \"type": (res, string) => string = "type"
 @send external vary: (res, string) => res = "vary"
 
+// simple implementation of routing
+// a route are just a mini-app, right? easy (hopefully)
 @module("express") external router: unit => express = "Router"
 @send external withRoute: (express, string) => express = "route"
 @send external useRouter: (express, string, express) => unit = "use"

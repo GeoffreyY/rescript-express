@@ -13,6 +13,7 @@
   "author": "bloodyowl <bloodyowl@icloud.com>",
   "license": "MIT",
   "devDependencies": {
+    "@ryyppy/rescript-promise": "^2.1.0",
     "bs-platform": "^9.0.2",
     "express": "^4.17.1"
   },
