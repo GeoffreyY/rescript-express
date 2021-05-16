@@ -4,11 +4,11 @@ let app = expressCjs()
 
 app->use(jsonMiddleware())
 
-app->getSync("/", (_req, res) => {
+app->Sync.get("/", (_req, res) => {
   res->status(200)->json({"ok": true})
 })
 
-app->postSync("/ping", (req, res) => {
+app->Sync.post("/ping", (req, res) => {
   let body = req->body
   switch body["name"]->Js.Nullable.toOption {
   | Some(name) => res->status(200)->json({"message": `Hello ${name}`})
@@ -16,7 +16,7 @@ app->postSync("/ping", (req, res) => {
   }
 })
 
-app->useWithErrorSync((err, _req, res, _next) => {
+app->Sync.useWithError((err, _req, res, _next) => {
   Js.Console.error(err)
   res->status(500)->endWithData("An error occured")
 })
